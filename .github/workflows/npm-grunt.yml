@@ -1,28 +1,34 @@
-name: NodeJS with Grunt
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "revamp" ]
-  pull_request:
-    branches: [ "revamp" ]
+    branches:
+      - main # Or your default branch (e.g., master)
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Setup Node.js 🔧
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use a Node.js version compatible with your project
 
-    - name: Build
-      run: |
-        npm install
-        grunt
+      - name: Install dependencies 📦
+        run: npm install --legacy-peer-deps # Add --legacy-peer-deps here
+
+      - name: Build project 🏗️
+        run: npm run build
+
+      - name: Deploy to GitHub Pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages # The branch to deploy your static files to
+          folder: build # The folder containing your built static files (e.g., 'build' or 'dist')
+          # Optionally, if you are deploying to a user/organization page or a custom domain,
+          # you might not need to specify a base path in your build configuration,
+          # but for project pages, ensure your 'homepage' in package.json is set correctly.
+          # For example, if your repository is `my-username/my-repo`, the homepage should be `https://my-username.github.io/my-repo/`

@@ -16,7 +16,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import GitHubButton from 'react-github-btn';
-
+import { Variants } from 'framer-motion';
 /* ---------- quick-question data ---------- */
 const questions = {
   Me: 'Who are you? I want to know more about you.',
@@ -45,20 +45,20 @@ export default function Home() {
     router.push(`/chat?query=${encodeURIComponent(query)}`);
 
   /* hero animations (unchanged) */
-  const topElementVariants = {
+  const topElementVariants: Variants = {
     hidden: { opacity: 0, y: -60 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { type: 'ease', duration: 0.8 },
+      transition: { type: "tween", duration: 0.8 },
     },
   };
-  const bottomElementVariants = {
+  const bottomElementVariants: Variants = {
     hidden: { opacity: 0, y: 80 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { type: 'ease', duration: 0.8, delay: 0.2 },
+      transition: { type: 'tween', duration: 0.8, delay: 0.2 },
     },
   };
 

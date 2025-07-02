@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/chat/chat-bubble';
 import { ChatRequestOptions } from 'ai';
 import { Message } from 'ai/react';
-import { motion } from 'framer-motion';
+import { motion, cubicBezier, Transition } from 'framer-motion'; // Added cubicBezier and Transition
 import ChatMessageContent from './chat-message-content';
 import ToolRenderer from './tool-renderer';
 
@@ -19,13 +19,20 @@ interface SimplifiedChatViewProps {
   addToolResult?: (args: { toolCallId: string; result: string }) => void;
 }
 
-const MOTION_CONFIG = {
+// Explicitly define the type for MOTION_CONFIG and use cubicBezier
+const MOTION_CONFIG: {
+  initial: { opacity: number; y: number; };
+  animate: { opacity: number; y: number; };
+  exit: { opacity: number; y: number; };
+  transition: Transition; // Use Framer Motion's Transition type
+} = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: 20 },
   transition: {
     duration: 0.3,
-    ease: 'easeOut',
+    // FIX: Use cubicBezier for 'easeOut' equivalent to satisfy TypeScript
+    ease: cubicBezier(0, 0, 0.58, 1), // Equivalent to "easeOut"
   },
 };
 
@@ -96,3 +103,4 @@ export function SimplifiedChatView({
     </motion.div>
   );
 }
+

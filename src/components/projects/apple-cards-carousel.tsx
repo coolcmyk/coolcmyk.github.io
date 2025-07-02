@@ -6,7 +6,7 @@ import {
   IconArrowNarrowRight,
   IconX,
 } from '@tabler/icons-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, cubicBezier, Transition } from 'framer-motion'; // Added cubicBezier and Transition
 import Image, { ImageProps } from 'next/image';
 import React, {
   createContext,
@@ -139,10 +139,10 @@ export const Carousel = ({
                   transition: {
                     duration: 0.5,
                     delay: 0.2 * index,
-                    ease: 'easeOut',
-                    once: true,
+                    ease: cubicBezier(0, 0, 0.58, 1), // Equivalent to "easeOut"
                   },
                 }}
+                // Removed 'once={true}' as it's not a direct prop for initial/animate
                 key={'card' + index}
                 className="rounded-3xl last:pr-[5%] md:last:pr-[33%]"
               >
@@ -327,3 +327,4 @@ export const BlurImage = ({
     />
   );
 };
+

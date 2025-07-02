@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, Variants, cubicBezier } from 'framer-motion'; // Ensure cubicBezier is imported
 import { Award, Code, GraduationCap, Mail, MessageSquare } from 'lucide-react';
 import React from 'react';
 
@@ -30,7 +30,7 @@ const ChatLanding: React.FC<ChatLandingProps> = ({ submitQuery }) => {
   ];
 
   // Animation variants for staggered animation
-  const containerVariants = {
+  const containerVariants: Variants = { // Explicitly type containerVariants as Variants
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -40,14 +40,15 @@ const ChatLanding: React.FC<ChatLandingProps> = ({ submitQuery }) => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = { // Explicitly type itemVariants as Variants
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.4,
-        ease: [0.25, 0.1, 0.25, 1],
+        // FIX: Use cubicBezier to correctly type the easing array
+        ease: cubicBezier(0.25, 0.1, 0.25, 1), 
       },
     },
   };
@@ -62,7 +63,7 @@ const ChatLanding: React.FC<ChatLandingProps> = ({ submitQuery }) => {
       {/* Welcome message */}
       <motion.div className="mb-8 text-center" variants={itemVariants}>
         <h2 className="mb-3 text-2xl font-semibold">
-            I'm Raphael's digital twin
+          I'm Raphael's digital twin
         </h2>
         <p className="text-muted-foreground mx-auto max-w-md">
           The first portfolio that fit YOU needs.
@@ -95,3 +96,4 @@ const ChatLanding: React.FC<ChatLandingProps> = ({ submitQuery }) => {
 };
 
 export default ChatLanding;
+

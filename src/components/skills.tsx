@@ -2,7 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { motion } from 'framer-motion';
+import { motion, cubicBezier, Variants } from 'framer-motion'; // Import cubicBezier and Variants
 import { Code, Cpu, PenTool, Users } from 'lucide-react';
 
 const Skills = () => {
@@ -81,7 +81,7 @@ const Skills = () => {
   ];
 
   // Animation variants
-  const containerVariants = {
+  const containerVariants: Variants = { // Explicitly type as Variants
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -91,21 +91,21 @@ const Skills = () => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = { // Explicitly type as Variants
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: [0.19, 1, 0.22, 1] },
+      transition: { duration: 0.5, ease: cubicBezier(0.19, 1, 0.22, 1) }, // Use cubicBezier
     },
   };
 
-  const badgeVariants = {
+  const badgeVariants: Variants = { // Explicitly type as Variants
     hidden: { opacity: 0, scale: 0.9 },
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.3, ease: 'easeOut' },
+      transition: { duration: 0.3, ease: cubicBezier(0, 0, 0.58, 1) }, // Equivalent to "easeOut"
     },
   };
 
@@ -113,7 +113,7 @@ const Skills = () => {
     <motion.div
       initial={{ scale: 0.98, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
+      transition={{ duration: 0.6, ease: cubicBezier(0.19, 1, 0.22, 1) }} // Use cubicBezier
       className="mx-auto w-full max-w-5xl rounded-4xl"
     >
       <Card className="w-full border-none px-0 pb-12 shadow-none">
@@ -174,3 +174,4 @@ const Skills = () => {
 };
 
 export default Skills;
+

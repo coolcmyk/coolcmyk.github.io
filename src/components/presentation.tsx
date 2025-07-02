@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, cubicBezier, Transition, Variants } from 'framer-motion'; // Added cubicBezier, Transition, and Variants
 import Image from 'next/image';
 import React from 'react';
 
@@ -19,24 +19,27 @@ export function Presentation() {
   };
 
   // Animation variants for text elements
-  const textVariants = {
+  const textVariants: Variants = { // Explicitly type as Variants
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
+      transition: { 
+        duration: 0.6, 
+        ease: cubicBezier(0, 0, 0.58, 1) // Equivalent to "easeOut"
+      },
     },
   };
 
   // Animation for the entire paragraph rather than word-by-word
-  const paragraphAnimation = {
+  const paragraphAnimation: Variants = { // Explicitly type as Variants
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.6,
-        ease: 'easeOut',
+        ease: cubicBezier(0, 0, 0.58, 1), // Equivalent to "easeOut"
         delay: 0.2,
       },
     },
@@ -51,7 +54,7 @@ export function Presentation() {
             <motion.div
               initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+              transition={{ duration: 0.8, ease: cubicBezier(0.19, 1, 0.22, 1) }} // Use cubicBezier for the array
               className="h-full w-full"
             >
               <Image
@@ -121,3 +124,4 @@ export function Presentation() {
 }
 
 export default Presentation;
+

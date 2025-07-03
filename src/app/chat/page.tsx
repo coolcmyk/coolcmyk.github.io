@@ -5,7 +5,7 @@ import Chat from '@/components/chat/chat';
 
 export default function Page() {
   return (
-    <Suspense fallback={<div>Chargement du chat...</div>}>
+    <Suspense fallback={<div>still loading, wait a sec...</div>}>
       <Chat />
     </Suspense>
   );

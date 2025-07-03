@@ -6,17 +6,20 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-// Load Inter font for non-Apple devices
-const inter = Inter({ 
-  subsets: ["latin"],
-  variable: "--font-inter",
+import { JetBrains_Mono } from 'next/font/google';
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
 });
 
+
 export const metadata: Metadata = {
-  title: "Toukoum Portfolio",
-  description: "Interactive portfolio with an AI-powered Memoji that answers questions about me, my skills, and my experience",
+  title: "ky0.dev",
+  description: "Interact with Mitsuki, about my skills, projects, etc.",
   keywords: [
-    "Toukoum", 
+    "kyomoto",
+    "ky0",
     "Portfolio", 
     "Developer", 
     "AI", 
@@ -29,24 +32,24 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: "Toukoum",
-      url: "https://toukoum.fr",
+      name: "ky0",
+      url: "https://ky0.dev",
     },
   ],
   creator: "Toukoum",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://toukoum.fr",
+    url: "https://ky0.deb",
     title: "Toukoum Portfolio",
-    description: "Interactive portfolio with an AI-powered Memoji that answers questions about me",
+    description: "Interact with Mitsuki, about my skills, projects, etc.",
     siteName: "Toukoum Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "Toukoum Portfolio",
-    description: "Interactive portfolio with an AI-powered Memoji that answers questions about me",
-    creator: "@toukoum",
+    description: "Interact with Mitsuki, about my skills, projects, etc.",
+    creator: "@kyomoto",
   },
   icons: {
     icon: [
@@ -74,7 +77,7 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          inter.variable,
+          jetbrainsMono.variable,
         )}
       >
         <ThemeProvider

@@ -80,6 +80,8 @@ export default function Home() {
     linkMp4.as = 'video';
     linkMp4.href = '/final_memojis_ios.mp4';
     document.head.appendChild(linkMp4);
+
+    document.documentElement.classList.add('dark');
   }, []);
 
   return (

@@ -101,7 +101,7 @@ export default function Home() {
           data-size="large"
           data-show-count="true"
           aria-label="Star coolcmyk on GitHub"
-          onClick={() => handleProfileClick()} 
+          // onClick={() => handleProfileClick()} 
         >
         </GitHubButton>
       </div>

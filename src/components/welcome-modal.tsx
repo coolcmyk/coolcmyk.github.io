@@ -29,11 +29,11 @@ export default function WelcomeModal({ trigger }: WelcomeModalProps) {
       onClick={() => setIsOpen(true)}
     >
       <Image
-        src="/logo-toukoum.svg"
+        src="/ky0-logo.jpeg"
         width={100}
         height={100}
         alt="Logo"
-        className="w-6 md:w-8"
+        className="h-full w-full object-cover"
       />
       <span className="sr-only">About ky0</span>
     </Button>
@@ -42,6 +42,9 @@ export default function WelcomeModal({ trigger }: WelcomeModalProps) {
   const handleContactMe = () => {
     setIsOpen(false);
     window.location.href = '/chat?query=How%20can%20I%20contact%20you%3F';
+  };
+  const handleProfileClick = () => {
+    window.open("https://www.github.com/coolcmyk", '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -65,7 +68,7 @@ export default function WelcomeModal({ trigger }: WelcomeModalProps) {
             <DialogHeader className="relative flex flex-row items-start justify-between px-8 pt-8 pb-6">
               <div>
                 <DialogTitle className="flex items-center gap-2 text-4xl font-bold tracking-tight">
-                  welcome to ky0's portfolio                </DialogTitle>
+                  welcome to ky0.dev               </DialogTitle>
                 <DialogDescription className="mt-2 text-base">
                   {/*My interactive AI portfolio experience*/} </DialogDescription> </div>
               <Button
@@ -85,29 +88,30 @@ export default function WelcomeModal({ trigger }: WelcomeModalProps) {
                 {/* What section */}
                 <div className="space-y-3">
                   <h3 className="text-primary flex items-center gap-2 text-xl font-semibold">
-                    What's ????
+                    so what's this?
                   </h3>
                   <p className="text-accent-foreground text-base leading-relaxed">
-                    I'm so excited to present my{' '}
-                    <strong>brand new AI Portfolio.</strong>
-                    <br /> Whether you're a recruiter, a friend, family member,
-                    or just curious, feel free to ask anything you want!
+                    this is a reworked version of my previous portfolio, with integration of{' '}
+                    <strong>mitsuki, a virtual friend of mine that will guide your journey</strong>
+                    <br /> whether you're a recruiter, a friend, or just curious, feel free to ask her anything you want.
                   </p>
                 </div>
 
                 {/* Why section */}
                 <div className="space-y-3">
                   <h3 className="text-primary flex items-center gap-2 text-xl font-semibold">
-                    Why ???
+                    okay cool, so what's{' '}
+                    <strong>mitsuki</strong> again?
                   </h3>
                   <p className="text-accent-foreground text-base leading-relaxed">
-                    Traditional portfolios can be limiting. <br /> They can't
-                    adapt to every visitor's specific needs. <br /> My portfolio
-                    becomes{' '}
+                    she's a finetuned assistant with gemini as her base model and function calling capabilites
+                    <br /> feel free to ask her anything.
+                    <br />
                     <strong>
-                      exactly what you're interested in knowing about me and my
+                      she has all of my information and exactly what you're interested in knowing about me and my
                       work.
                     </strong>
+                    <br />
                   </p>
                 </div>
               </section>
@@ -116,21 +120,26 @@ export default function WelcomeModal({ trigger }: WelcomeModalProps) {
             {/* Footer */}
             <div className="flex flex-col items-center px-8 pt-4 pb-0 md:pb-8">
               <Button
-                onClick={() => setIsOpen(false)}
+                onClick={() => {setIsOpen(false); handleProfileClick();}}
                 className="h-auto rounded-full px-4 py-3"
                 size="sm"
               >
-                Start Chatting
+                visit my github
               </Button>
               <div
-                className="mt-6 flex cursor-pointer flex-wrap gap-1 text-center text-sm"
+                className="mt-6 flex flex-col cursor-pointer gap-1 text-center text-sm"
                 onClick={handleContactMe}
               >
-                <p className="text-muted-foreground">
-                  If you love it, please share it! Feedback is always welcome.
+                <p className="justify-center text-muted-foreground w-full">
+                  this is a forked version of the gpt-based repository of the maker, pay him a visit :) 
+                  <br/>
+                  github.com/toukoum/portfolio 
+                  <br/>
+                  If you like it, please share it, feedback is always welcome.
+
                 </p>
-                <div className="flex cursor-pointer items-center text-blue-500 hover:underline">
-                  Contact me.
+                <div className="text-center flex justify-center items-center text-blue-500 hover:underline mt-2">
+                  contact me.
                 </div>
               </div>
             </div>

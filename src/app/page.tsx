@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import GitHubButton from 'react-github-btn';
 import { Variants } from 'framer-motion';
-
+// import LiquidGlass from 'liquid-glass-react' bloated as hell
 /* ---------- quick-question data ---------- */
 const questions = {
   About: 'Tell me about Ryan Adidaru. What\'s his background in computer engineering?',
@@ -35,6 +35,8 @@ const questionConfig = [
   { key: 'Contact', color: '#C19433', icon: PartyPopper },
 ] as const;
 
+const handleProfileClick = () => { window.open("https://www.github.com/coolcmyk", '_blank', 'noopener,noreferrer');
+}
 /* ---------- component ---------- */
 export default function Home() {
   const [input, setInput] = useState('');
@@ -42,8 +44,8 @@ export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const goToChat = (query: string) =>
-    router.push(`/chat?query=${encodeURIComponent(query)}`);
 
+    router.push(`/chat?query=${encodeURIComponent(query)}`);
   /* hero animations (unchanged) */
   const topElementVariants: Variants = {
     hidden: { opacity: 0, y: -60 },
@@ -63,7 +65,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // Précharger les assets du chat en arrière-plan
     const img = new window.Image();
     img.src = '/landing-memojis.png';
 
@@ -100,6 +101,7 @@ export default function Home() {
           data-size="large"
           data-show-count="true"
           aria-label="Star coolcmyk on GitHub"
+          onClick={() => handleProfileClick()} 
         >
         </GitHubButton>
       </div>
@@ -130,10 +132,10 @@ export default function Home() {
         </div>
 
         <h2 className="text-secondary-foreground mt-1 text-xl font-semibold md:text-2xl">
-          Ryan's Portfolio
+          coolcmyk
         </h2>
-        <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
-          AI & Software Engineer
+        <h1 className="text-2xl font-bold sm:text-2xl md:text-6xl lg:text-4xl">
+          ai/ml & software engineer
         </h1>
       </motion.div>
 
@@ -158,14 +160,14 @@ export default function Home() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask Mitsuki about me..."
+              placeholder="ask mitsuki about me..."
               className="w-full border-none bg-transparent text-base text-neutral-800 placeholder:text-neutral-500 focus:outline-none dark:text-neutral-200 dark:placeholder:text-neutral-500"
             />
             <button
               type="submit"
               disabled={!input.trim()}
               aria-label="Submit question"
-              className="flex items-center justify-center rounded-full bg-[#0171E3] p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-70 dark:bg-blue-600 dark:hover:bg-blue-700"
+              className="flex items-center justify-center rounded-full bg-transparent p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-70 dark:bg-blue-600 dark:hover:bg-blue-700"
             >
               <ArrowRight className="h-5 w-5" />
             </button>
@@ -189,7 +191,7 @@ export default function Home() {
           ))}
         </div>
       </motion.div>
-      <FluidCursor />
+      {/* <FluidCursor /> adhd trap lulz*/}
     </div>
   );
 }

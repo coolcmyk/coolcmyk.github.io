@@ -54,11 +54,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon.svg",
+        url: "/logo-preview.png",
         sizes: "any",
       }
     ],
-    shortcut: "/favicon.svg?v=2",
+    shortcut: "/logo-preview.png?v=2",
     apple: "/apple-touch-icon.svg?v=2",
   },
 };
@@ -72,7 +72,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <link rel="icon" href="/favicon.svg" sizes="any" />
+        <link rel="icon" href="/logo-preview.png" sizes="any" />
       </head>
       <body
         className={cn(

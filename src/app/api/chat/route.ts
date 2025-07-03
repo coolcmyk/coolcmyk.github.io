@@ -58,7 +58,7 @@ export async function POST(req: Request) {
       config: {
         systemInstruction: SYSTEM_PROMPT,
         tools: [{
-          functionDeclarations: functionDeclarations
+          // functionDeclarations: functionDeclarations
         }],
         toolConfig: {
           functionCallingConfig: {

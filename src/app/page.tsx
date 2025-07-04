@@ -1,9 +1,11 @@
 'use client';
 
-import FluidCursor from '@/components/FluidCursor';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion, Variants } from 'framer-motion';
+import GitHubButton from 'react-github-btn';
 import { Button } from '@/components/ui/button';
 import WelcomeModal from '@/components/welcome-modal';
-import { motion } from 'framer-motion';
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -11,16 +13,12 @@ import {
   GraduationCap,
   PartyPopper,
   UserRoundSearch,
+  Github,
 } from 'lucide-react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-import GitHubButton from 'react-github-btn';
-import { Variants } from 'framer-motion';
-// import LiquidGlass from 'liquid-glass-react' bloated as hell
-/* ---------- quick-question data ---------- */
+
+/* ---------- Quick Question Data ---------- */
 const questions = {
-  About: 'Tell me about Ryan Adidaru. What\'s his background in computer engineering?',
+  About: "Tell me about Ryan Adidaru. What's his background in computer engineering?",
   Projects: 'What are Ryan\'s most impressive projects? Tell me about CaptureTheGun and TanyaJawab.',
   Skills: 'What programming languages and technologies does Ryan know? Tell me about his AI experience.',
   Education: 'Where did Ryan study? What certifications does he have?',
@@ -35,120 +33,100 @@ const questionConfig = [
   { key: 'Contact', color: '#C19433', icon: PartyPopper },
 ] as const;
 
-const handleProfileClick = () => { window.open("https://www.github.com/coolcmyk", '_blank', 'noopener,noreferrer');
-}
-/* ---------- component ---------- */
+/* ---------- Component ---------- */
 export default function Home() {
-  const [input, setInput] = useState('');
   const router = useRouter();
+  const [input, setInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const goToChat = (query: string) =>
-
+  const goToChat = (query: string) => {
     router.push(`/chat?query=${encodeURIComponent(query)}`);
-  /* hero animations (unchanged) */
-  const topElementVariants: Variants = {
-    hidden: { opacity: 0, y: -60 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "tween", duration: 0.8 },
-    },
   };
-  const bottomElementVariants: Variants = {
+
+  const topVariants: Variants = {
+    hidden: { opacity: 0, y: -60 },
+    visible: { opacity: 1, y: 0, transition: { type: 'tween', duration: 0.8 } },
+  };
+
+  const bottomVariants: Variants = {
     hidden: { opacity: 0, y: 80 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: 'tween', duration: 0.8, delay: 0.2 },
-    },
+    visible: { opacity: 1, y: 0, transition: { type: 'tween', duration: 0.8, delay: 0.2 } },
   };
 
   useEffect(() => {
-    const img = new window.Image();
+    const img = new Image();
     img.src = '/landing-memojis.png';
 
-    // Précharger les vidéos aussi
-    const linkWebm = document.createElement('link');
-    linkWebm.rel = 'preload';
-    linkWebm.as = 'video';
-    linkWebm.href = '/final_memojis.webm';
-    document.head.appendChild(linkWebm);
+    const preloadVideo = (href: string, as: string) => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = as;
+      link.href = href;
+      document.head.appendChild(link);
+    };
 
-    const linkMp4 = document.createElement('link');
-    linkMp4.rel = 'prefetch';
-    linkMp4.as = 'video';
-    linkMp4.href = '/final_memojis_ios.mp4';
-    document.head.appendChild(linkMp4);
+    preloadVideo('/final_memojis.webm', 'video');
+    preloadVideo('/final_memojis_ios.mp4', 'video');
 
     document.documentElement.classList.add('dark');
   }, []);
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pb-10 md:pb-20">
-      {/* big blurred footer word */}
+    <div className="relative flex min-h-screen flex-col items-center justify-center px-4 pb-10 md:pb-20 overflow-hidden">
+      {/* Decorative Footer Word */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center overflow-hidden">
         <div
-          className="hidden bg-gradient-to-b from-neutral-500/10 to-neutral-500/0 bg-clip-text text-[10rem] leading-none font-black text-transparent select-none sm:block lg:text-[16rem]"
+          className="hidden sm:block bg-gradient-to-b from-neutral-500/10 to-neutral-500/0 bg-clip-text text-transparent text-[10rem] lg:text-[16rem] font-black select-none"
           style={{ marginBottom: '-2.5rem' }}
-        >
-        </div>
+        ></div>
       </div>
 
-      {/* GitHub button */}
-      <div className="absolute top-6 right-8 z-20">
-        <GitHubButton
-          href="https://github.com/coolcmyk"
-          data-color-scheme="no-preference: light; light: light; dark: light_high_contrast;"
-          data-size="large"
-          data-show-count="true"
-          aria-label="Star coolcmyk on GitHub"
-          // onClick={() => handleProfileClick()} 
-        >
-        </GitHubButton>
-      </div>
-
-      <div className="absolute top-6 left-6 z-20">
+      {/* Header Buttons */}
+      <div className="absolute top-6 left-6 right-6 z-20 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <button
           onClick={() => goToChat('Are you looking for internship opportunities?')}
-          className="cursor-pointer relative flex items-center gap-2 rounded-full border bg-white/30 px-4 py-1.5 text-sm font-medium text-black shadow-md backdrop-blur-lg transition hover:bg-white/60 dark:border-white dark:text-white dark:hover:bg-neutral-800"
+          className="flex items-center gap-2 rounded-full border bg-white/30 px-4 py-1.5 text-sm font-medium text-black shadow-md backdrop-blur-lg transition hover:bg-white/60 dark:border-white dark:text-white dark:hover:bg-neutral-800"
         >
-          {/* Green pulse dot */}
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
           </span>
           looking for internship by any chance?
         </button>
-      </div>
+<a
+  href="https://github.com/coolcmyk"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="flex items-center gap-2 rounded-full border bg-white/30 px-4 py-1.5 text-xs md:text-sm font-medium text-black shadow-md backdrop-blur-lg transition hover:bg-white/60 dark:border-white dark:text-white dark:hover:bg-neutral-800
+    px-2 py-1 md:px-4 md:py-1.5"
+>
+  <Github className="h-4 w-4 md:h-5 md:w-5" />
+  <span className="hidden sm:inline">star on gitHub</span>
+</a>
 
-      {/* header */}
+     </div>
+
+      {/* Hero Section */}
       <motion.div
-        className="z-1 mb-8 flex flex-col items-center text-center md:mb-12 mt-24 md:mt-4"
-        variants={topElementVariants}
+        variants={topVariants}
         initial="hidden"
         animate="visible"
+        className="mt-24 md:mt-4 mb-8 md:mb-12 flex flex-col items-center text-center"
       >
-        <div className="z-100">
-          <WelcomeModal />
-        </div>
-
-        <h2 className="text-secondary-foreground mt-1 text-xl font-semibold md:text-2xl">
-          coolcmyk
-        </h2>
-        <h1 className="text-2xl font-bold sm:text-2xl md:text-6xl lg:text-4xl">
+        <WelcomeModal />
+        <h2 className="mt-1 text-xl md:text-2xl font-semibold text-secondary-foreground">coolcmyk</h2>
+        <h1 className="text-2xl sm:text-2xl md:text-6xl lg:text-4xl font-bold">
           ai/ml & software engineer
         </h1>
       </motion.div>
 
-      {/* input + quick buttons */}
+      {/* Input & Quick Buttons */}
       <motion.div
-        variants={bottomElementVariants}
+        variants={bottomVariants}
         initial="hidden"
         animate="visible"
-        className="z-10 mt-4 flex w-full flex-col items-center justify-center md:px-0"
+        className="mt-4 z-10 flex w-full flex-col items-center justify-center"
       >
-        {/* free-form question */}
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -156,14 +134,14 @@ export default function Home() {
           }}
           className="relative w-full max-w-lg"
         >
-          <div className="mx-auto flex items-center rounded-full border border-neutral-200 bg-white/30 py-2.5 pr-2 pl-6 backdrop-blur-lg transition-all hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-neutral-600">
+          <div className="mx-auto flex items-center rounded-full border border-neutral-200 bg-white/30 py-2.5 px-6 pr-2 backdrop-blur-lg transition hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-neutral-600">
             <input
               ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="ask mitsuki about me..."
-              className="w-full border-none bg-transparent text-base text-neutral-800 placeholder:text-neutral-500 focus:outline-none dark:text-neutral-200 dark:placeholder:text-neutral-500"
+              className="w-full bg-transparent text-base text-neutral-800 placeholder:text-neutral-500 focus:outline-none dark:text-neutral-200 dark:placeholder:text-neutral-500"
             />
             <button
               type="submit"
@@ -176,24 +154,23 @@ export default function Home() {
           </div>
         </form>
 
-        {/* quick-question grid */}
         <div className="mt-4 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3 md:grid-cols-5">
           {questionConfig.map(({ key, color, icon: Icon }) => (
             <Button
               key={key}
               onClick={() => goToChat(questions[key])}
               variant="outline"
-              className="shadow-none border-border hover:bg-border/30 aspect-square w-full cursor-pointer rounded-2xl border bg-white/30 py-8 backdrop-blur-lg active:scale-95 md:p-10"
+              className="aspect-square w-full rounded-2xl border bg-white/30 py-8 md:p-10 backdrop-blur-lg border-border hover:bg-border/30 shadow-none active:scale-95"
             >
-              <div className="flex h-full flex-col items-center justify-center gap-1 text-gray-700">
+              <div className="flex flex-col items-center justify-center gap-1 text-gray-700">
                 <Icon size={22} strokeWidth={2} color={color} />
-                <span className="text-xs font-medium sm:text-sm">{key}</span>
+                <span className="text-xs sm:text-sm font-medium">{key}</span>
               </div>
             </Button>
           ))}
         </div>
       </motion.div>
-      {/* <FluidCursor /> adhd trap lulz*/}
     </div>
   );
 }
+

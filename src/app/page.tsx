@@ -65,9 +65,6 @@ export default function Home() {
       document.head.appendChild(link);
     };
 
-    preloadVideo('/final_memojis.webm', 'video');
-    preloadVideo('/final_memojis_ios.mp4', 'video');
-
     document.documentElement.classList.add('dark');
   }, []);
 

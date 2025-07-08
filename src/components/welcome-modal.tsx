@@ -29,7 +29,7 @@ export default function WelcomeModal({ trigger }: WelcomeModalProps) {
       onClick={() => setIsOpen(true)}
     >
       <Image
-        src="/ky0-logo.jpeg"
+        src="/ky0-logo-2.jpeg"
         width={100}
         height={100}
         alt="Logo"

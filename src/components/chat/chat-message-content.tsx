@@ -23,13 +23,11 @@ export type ChatMessageContentProps = {
 const CodeBlock = ({ content }: { content: string }) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  // Extract language if present in the first line
   const firstLineBreak = content.indexOf('\n');
   const firstLine = content.substring(0, firstLineBreak).trim();
   const language = firstLine || 'text';
   const code = firstLine ? content.substring(firstLineBreak + 1) : content;
 
-  // Get first few lines for preview
   const previewLines = code.split('\n').slice(0, 1).join('\n');
   const hasMoreLines = code.split('\n').length > 1;
 
@@ -74,12 +72,10 @@ const CodeBlock = ({ content }: { content: string }) => {
 export default function ChatMessageContent({
   message,
 }: ChatMessageContentProps) {
-  // Only handle text parts
   const renderContent = () => {
     return message.parts?.map((part, partIndex) => {
       if (part.type !== 'text' || !part.text) return null;
 
-      // Split content by code block markers
       const contentParts = part.text.split('```');
 
       return (

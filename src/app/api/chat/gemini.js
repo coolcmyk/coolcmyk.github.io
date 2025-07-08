@@ -1,116 +1,50 @@
-import { GoogleGenAI, Modality } from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
+import { google } from '@ai-sdk/google';
+import { streamText } from 'ai';
 
-const ai = new GoogleGenAI({});
-const model = 'gemini-live-2.5-flash-preview';
-
-// Simple function definitions
-const turn_on_the_lights = { name: "turn_on_the_lights" } // , description: '...', parameters: { ... }
-const turn_off_the_lights = { name: "turn_off_the_lights" }
-
-const tools = [{ functionDeclarations: [turn_on_the_lights, turn_off_the_lights] }]
-
-const config = {
-  responseModalities: [Modality.TEXT],
-  tools: tools
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+if (!GEMINI_API_KEY) {
+  console.error('❌ Missing GEMINI_API_KEY!');
+  process.exit(1);
 }
 
-async function live() {
-  const responseQueue = [];
+const ai = new GoogleGenAI({
+  apiKey: GEMINI_API_KEY,
+});
 
-  async function waitMessage() {
-    let done = false;
-    let message = undefined;
-    while (!done) {
-      message = responseQueue.shift();
-      if (message) {
-        done = true;
-      } else {
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      }
-    }
-    return message;
+async function testGoogleGenAI() {
+  console.log('\n🔍 Testing @google/genai (direct Gemini API call)...');
+  try {
+    const result = await ai.models.generateContent({
+      model: 'gemini-1.5-flash', // Use a supported model
+      contents: [{ role: 'user', parts: [{ text: 'Hello from Google GenAI!' }] }],
+    });
+    console.log('✅ Success:', JSON.stringify(result, null, 2));
+  } catch (error) {
+    console.error('❌ Error in GoogleGenAI:', error);
   }
+}
 
-  async function handleTurn() {
-    const turns = [];
-    let done = false;
-    while (!done) {
-      const message = await waitMessage();
-      turns.push(message);
-      if (message.serverContent && message.serverContent.turnComplete) {
-        done = true;
-      } else if (message.toolCall) {
-        done = true;
-      }
+async function testAiSdkGoogle() {
+  console.log('\n🔍 Testing @ai-sdk/google with streamText...');
+  try {
+    const response = streamText({
+      model: google('gemini-1.5-flash', {}),
+      messages: [{ role: 'user', content: 'Hello from ai-sdk!' }],
+    });
+
+    for await (const chunk of response) {
+      console.log('✅ Streamed chunk:', chunk.text);
     }
-    return turns;
+  } catch (error) {
+    console.error('❌ Error in ai-sdk/google:', error);
   }
-
-  const session = await ai.live.connect({
-    model: model,
-    callbacks: {
-      onopen: function () {
-        console.debug('Opened');
-      },
-      onmessage: function (message) {
-        responseQueue.push(message);
-      },
-      onerror: function (e) {
-        console.debug('Error:', e.message);
-      },
-      onclose: function (e) {
-        console.debug('Close:', e.reason);
-      },
-    },
-    config: config,
-  });
-
-  const inputTurns = 'Turn on the lights please';
-  session.sendClientContent({ turns: inputTurns });
-
-  let turns = await handleTurn();
-
-  for (const turn of turns) {
-    if (turn.serverContent && turn.serverContent.modelTurn && turn.serverContent.modelTurn.parts) {
-      for (const part of turn.serverContent.modelTurn.parts) {
-        if (part.text) {
-          console.debug('Received text: %s\n', part.text);
-        }
-      }
-    }
-    else if (turn.toolCall) {
-      const functionResponses = [];
-      for (const fc of turn.toolCall.functionCalls) {
-        functionResponses.push({
-          id: fc.id,
-          name: fc.name,
-          response: { result: "ok" } // simple, hard-coded function response
-        });
-      }
-
-      console.debug('Sending tool response...\n');
-      session.sendToolResponse({ functionResponses: functionResponses });
-    }
-  }
-
-  // Check again for new messages
-  turns = await handleTurn();
-
-  for (const turn of turns) {
-    if (turn.serverContent && turn.serverContent.modelTurn && turn.serverContent.modelTurn.parts) {
-      for (const part of turn.serverContent.modelTurn.parts) {
-        if (part.text) {
-          console.debug('Received text: %s\n', part.text);
-        }
-      }
-    }
-  }
-
-  session.close();
 }
 
 async function main() {
-  await live().catch((e) => console.error('got error', e));
+  await testGoogleGenAI();
+  await testAiSdkGoogle();
 }
 
 main();
+

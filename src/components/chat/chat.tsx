@@ -20,6 +20,13 @@ import { Info } from 'lucide-react';
 import GitHubButton from 'react-github-btn';
 import HelperBoost from './HelperBoost';
 
+
+import {
+ Github,
+} from 'lucide-react';
+
+
+
 // ClientOnly component for client-side rendering
 //@ts-ignore
 const ClientOnly = ({ children }) => {
@@ -84,7 +91,7 @@ const Avatar = dynamic<AvatarProps>(
           >
             {isIOS() ? (
               <img
-                src="/landing-memojis.png"
+                src="/mitsuki-logo.png"
                 alt="iOS avatar"
                 className="h-full w-full scale-[1.8] object-contain"
               />
@@ -96,8 +103,8 @@ const Avatar = dynamic<AvatarProps>(
                 playsInline
                 loop
               >
-                <source src="/final_memojis.webm" type="video/webm" />
-                <source src="/final_memojis_ios.mp4" type="video/mp4" />
+                {/* <source src="/final_memojis.webm" type="video/webm" /> */}
+                {/* <source src="/final_memojis_ios.mp4" type="video/mp4" /> */}
               </video>
             )}
           </div>
@@ -274,11 +281,9 @@ const Chat = () => {
     }
   };
 
-  // Check if this is the initial empty state (no messages)
   const isEmptyState =
     !currentAIMessage && !latestUserMessage && !loadingSubmit;
 
-  // Calculate header height based on hasActiveTool
   const headerHeight = hasActiveTool ? 100 : 180;
 
   return (
@@ -291,17 +296,17 @@ const Chat = () => {
             </div>
           }
         />
-        <div className="pt-2">
-          <GitHubButton
-            href="https://github.com/toukoum/portfolio"
-            data-color-scheme="no-preference: light; light: light; dark: light_high_contrast;"
-            data-size="large"
-            data-show-count="true"
-            aria-label="Star toukoum/portfolio on GitHub"
-          >
-            Star
-          </GitHubButton>
-        </div>
+  <a
+  href="https://github.com/coolcmyk"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="flex items-center gap-2 rounded-full border bg-white/30 px-4 py-1.5 text-xs md:text-sm font-medium text-black shadow-md backdrop-blur-lg transition hover:bg-white/60 dark:border-white dark:text-white dark:hover:bg-neutral-800
+    px-2 py-1 md:px-4 md:py-1.5">
+
+  <Github className="h-4 w-4 md:h-5 md:w-5" />
+  <span className="hidden sm:inline">visit my github</span>
+</a>
+
       </div>
 
       {/* Fixed Avatar Header with Gradient */}
@@ -309,7 +314,7 @@ const Chat = () => {
         className="fixed top-0 right-0 left-0 z-50"
         style={{
           background:
-            'linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.95) 30%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%)',
+            'linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 30%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0) 100%)',
         }}
       >
         <div
@@ -389,7 +394,7 @@ const Chat = () => {
         </div>
 
         {/* Fixed Bottom Bar */}
-        <div className="sticky bottom-0 bg-white px-2 pt-3 md:px-0 md:pb-4">
+        <div className="sticky bottom-0 bg-black px-2 pt-3 md:px-0 md:pb-4">
           <div className="relative flex flex-col items-center gap-3">
             <HelperBoost submitQuery={submitQuery} setInput={setInput} />
             <ChatBottombar
@@ -408,7 +413,6 @@ const Chat = () => {
           rel="noopener noreferrer"
           className="fixed right-3 bottom-0 z-10 mb-4 hidden cursor-pointer items-center gap-2 rounded-xl px-4 py-2 text-sm hover:underline md:block"
         >
-          @toukoum
         </a>
       </div>
     </div>

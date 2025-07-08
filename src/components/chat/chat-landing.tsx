@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, Variants, cubicBezier } from 'framer-motion'; // Ensure cubicBezier is imported
+import { motion, Variants, cubicBezier } from 'framer-motion'; 
 import { Award, Code, GraduationCap, Mail, MessageSquare } from 'lucide-react';
 import React from 'react';
 
@@ -9,27 +9,25 @@ interface ChatLandingProps {
 }
 
 const ChatLanding: React.FC<ChatLandingProps> = ({ submitQuery }) => {
-  // Suggested questions that the user can click on
   const suggestedQuestions = [
     {
       icon: <MessageSquare className="h-4 w-4" />,
-      text: 'Who are you?',
+      text: 'introduce yourself.',
     },
     {
       icon: <Code className="h-4 w-4" />,
-      text: 'What projects have you worked on?',
+      text: 'what projects have ryan worked on?',
     },
     {
       icon: <Award className="h-4 w-4" />,
-      text: 'What are your skills?',
+      text: "tell me about ryan's skills.",
     },
     {
       icon: <Mail className="h-4 w-4" />,
-      text: 'How can I contact you?',
+      text: 'how can I contact him?',
     },
   ];
 
-  // Animation variants for staggered animation
   const containerVariants: Variants = { // Explicitly type containerVariants as Variants
     hidden: { opacity: 0 },
     visible: {
@@ -60,17 +58,6 @@ const ChatLanding: React.FC<ChatLandingProps> = ({ submitQuery }) => {
       animate="visible"
       variants={containerVariants}
     >
-      {/* Welcome message */}
-      <motion.div className="mb-8 text-center" variants={itemVariants}>
-        <h2 className="mb-3 text-2xl font-semibold">
-          I'm Raphael's digital twin
-        </h2>
-        <p className="text-muted-foreground mx-auto max-w-md">
-          The first portfolio that fit YOU needs.
-        </p>
-      </motion.div>
-
-      {/* Suggested questions */}
       <motion.div
         className="w-full max-w-md space-y-3"
         variants={containerVariants}

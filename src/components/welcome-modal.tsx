@@ -44,7 +44,7 @@ export default function WelcomeModal({ trigger }: WelcomeModalProps) {
     window.location.href = '/chat?query=How%20can%20I%20contact%20you%3F';
   };
   const handleProfileClick = () => {
-    window.open("https://www.github.com/coolcmyk", '_blank', 'noopener,noreferrer');
+    window.location.href = '/chat';
   };
 
   return (
@@ -124,7 +124,7 @@ export default function WelcomeModal({ trigger }: WelcomeModalProps) {
                 className="h-auto rounded-full px-4 py-3"
                 size="sm"
               >
-                visit my github
+                chat with mitsuki
               </Button>
               <div
                 className="mt-6 flex flex-col cursor-pointer gap-1 text-center text-sm"

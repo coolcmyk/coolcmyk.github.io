@@ -11,26 +11,26 @@ import {
   BriefcaseBusiness,
   Code,
   GraduationCap,
-  PartyPopper,
-  UserRoundSearch,
+  Contact,
+  UserSearch,
   Github,
 } from 'lucide-react';
 
 /* ---------- Quick Question Data ---------- */
 const questions = {
-  About: "Tell me about Ryan Adidaru. What's his background in computer engineering?",
-  Projects: 'What are Ryan\'s most impressive projects? Tell me about CaptureTheGun and TanyaJawab.',
-  Skills: 'What programming languages and technologies does Ryan know? Tell me about his AI experience.',
-  Education: 'Where did Ryan study? What certifications does he have?',
-  Contact: 'How can I contact Ryan for job opportunities?',
+  about: "Tell me about Ryan Adidaru. What's his background in computer engineering?",
+  projects: 'What are Ryan\'s most impressive projects? Tell me about CaptureTheGun and TanyaJawab.',
+  skills: 'What programming languages and technologies does Ryan know? Tell me about his AI experience.',
+  edu : 'Where did Ryan study? What certifications does he have?',
+  contact: 'How can I contact Ryan for job opportunities?',
 } as const;
 
 const questionConfig = [
-  { key: 'About', color: '#329696', icon: UserRoundSearch },
-  { key: 'Projects', color: '#3E9858', icon: BriefcaseBusiness },
-  { key: 'Skills', color: '#856ED9', icon: Code },
-  { key: 'Education', color: '#B95F9D', icon: GraduationCap },
-  { key: 'Contact', color: '#C19433', icon: PartyPopper },
+  { key: 'about', color: '#FFFFFF', icon: UserSearch },
+  { key: 'projects', color: '#FFFFFF', icon: BriefcaseBusiness },
+  { key: 'skills', color: '#FFFFFF', icon: Code },
+  { key: 'edu', color: '#FFFFFF', icon: GraduationCap },
+  { key: 'contact', color: '#FFFFFF', icon: Contact},
 ] as const;
 
 /* ---------- Component ---------- */
@@ -101,7 +101,7 @@ export default function Home() {
     px-2 py-1 md:px-4 md:py-1.5"
 >
   <Github className="h-4 w-4 md:h-5 md:w-5" />
-  <span className="hidden sm:inline">star on gitHub</span>
+  <span className="hidden sm:inline">visit my github</span>
 </a>
 
      </div>
@@ -114,7 +114,7 @@ export default function Home() {
         className="mt-24 md:mt-4 mb-8 md:mb-12 flex flex-col items-center text-center"
       >
         <WelcomeModal />
-        <h2 className="mt-1 text-xl md:text-2xl font-semibold text-secondary-foreground">coolcmyk</h2>
+        <h2 className="mt-1 text-xl md:text-2xl font-semibold text-secondary-foreground">@coolcmyk</h2>
         <h1 className="text-2xl sm:text-2xl md:text-6xl lg:text-4xl font-bold">
           ai/ml & software engineer
         </h1>
@@ -147,7 +147,7 @@ export default function Home() {
               type="submit"
               disabled={!input.trim()}
               aria-label="Submit question"
-              className="flex items-center justify-center rounded-full bg-transparent p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-70 dark:bg-blue-600 dark:hover:bg-blue-700"
+              className="flex items-center justify-center rounded-full bg-white p-2.5 text-black transition-colors hover:bg-gray-300 disabled:opacity-70 dark:bg-white dark:hover:bg-gray-300"
             >
               <ArrowRight className="h-5 w-5" />
             </button>

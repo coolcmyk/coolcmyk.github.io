@@ -1,10 +1,3 @@
-import { 
-  GoogleGenAI,
-  FunctionCallingConfigMode,
-  FunctionDeclaration,
-  Type
-} from '@google/genai';
-
 import { google } from '@ai-sdk/google';
 import { streamText } from 'ai';
 import { SYSTEM_PROMPT } from './prompt';
@@ -18,15 +11,42 @@ import { getSkills } from './tools/getSkills';
 import { getSports } from './tools/getSport';
 
 export const maxDuration = 30;
+
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 if (!GEMINI_API_KEY) {
   console.error('Missing GEMINI_API_KEY!');
 }
-const ai = new GoogleGenAI({
-  apiKey: GEMINI_API_KEY
-})
 
-function errorHandler(error: unknown) {
+const rateLimitMap = new Map<string, { count: number; lastRequest: number }>();
+const RATE_LIMIT = 5; // 5 requests
+const WINDOW_MS = 60 * 1000; // 1 minute
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (entry) {
+    if (now - entry.lastRequest > WINDOW_MS) {
+      // Reset window
+      entry.count = 1;
+      entry.lastRequest = now;
+      rateLimitMap.set(ip, entry);
+      return false;
+    } else if (entry.count >= RATE_LIMIT) {
+      return true;
+    } else {
+      entry.count += 1;
+      entry.lastRequest = now;
+      rateLimitMap.set(ip, entry);
+      return false;
+    }
+  } else {
+    rateLimitMap.set(ip, { count: 1, lastRequest: now });
+    return false;
+  }
+}
+
+function errorHandler(error: unknown): string {
   if (error == null) {
     return 'Unknown error';
   }
@@ -40,11 +60,25 @@ function errorHandler(error: unknown) {
 }
 
 export async function POST(req: Request) {
+  const ip = req.headers.get('x-forwarded-for') || 'unknown';
+
+  //rate limiter for safety
+  if(isRateLimited(ip)){
+    return new Response(JSON.stringify({error: 'slow down baby'}), 
+    {status: 420, headers: {'Content-Type': 'application/json'}});
+  }
   try {
     const { messages } = await req.json();
     console.log('[CHAT-API] Incoming messages:', messages);
     
-    messages.unshift(SYSTEM_PROMPT);
+    const formattedMessages = [
+      {
+        role: 'system',
+        content: SYSTEM_PROMPT, 
+      },
+      ...messages,
+    ];
+    
     const tools = {
       getProjects,
       getPresentation,
@@ -55,18 +89,8 @@ export async function POST(req: Request) {
       getCrazy,
       getInternship,
     };
-
-    // const response = await ai.models.generateContentStream({
-    //   model: 'gemini-2.5-flash',
-    //   contents: messages,
-    //   config: CONFIGS,
-    // );
-    // for await (const chunk of response) {
-    //  console.log(chunk.text);
-    // }
-    // for streaming purposes
-    //
-    const response = streamText({
+    
+    const response = await streamText({
       model: google('gemini-2.5-flash', {
         useSearchGrounding: true,
         dynamicRetrievalConfig: {
@@ -74,15 +98,14 @@ export async function POST(req: Request) {
           dynamicThreshold: 0.8,
         }
       }),
-      messages,
+      messages: formattedMessages,
       toolCallStreaming: true,
       tools,
       maxSteps: 2,
     });
-    return response.toDataStreamResponse();
-    } catch (error) {
+    return response.toDataStreamResponse({getErrorMessage: errorHandler,});
+  } catch (err) {
     console.error('[CHAT-API] Error:', error);
     return new Response(errorHandler(error), { status: 500 });
   }
 }
-

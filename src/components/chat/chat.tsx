@@ -74,7 +74,10 @@ const Chat = () => {
     addToolResult,
     append,
   } = useChat({
+    api: '/api/chat',     
+    streamProtocol: 'data',
     onResponse: (response) => {
+      console.log(response);
       if (response) {
         setLoadingSubmit(false);
       }
@@ -105,6 +108,8 @@ const Chat = () => {
     onToolCall: (tool) => {
       console.log('Tool call:', tool.toolCall.toolName);
     },
+
+    headers: {'Content-Type': 'application/json',},
   });
 
   const { currentAIMessage, latestUserMessage, hasActiveTool } = useMemo(() => {

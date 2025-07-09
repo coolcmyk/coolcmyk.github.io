@@ -2,7 +2,6 @@ import { google } from '@ai-sdk/google';
 import { streamText } from 'ai';
 import { SYSTEM_PROMPT } from './prompt';
 import { getContact } from './tools/getContact';
-import { getCrazy } from './tools/getCrazy';
 import { getInternship } from './tools/getIntership';
 import { getPresentation } from './tools/getPresentation';
 import { getProjects } from './tools/getProjects';
@@ -93,7 +92,6 @@ export async function POST(req: Request) {
       getResume,
       getContact,
       getSkills,
-      getCrazy,
       getInternship,
     };
     
@@ -120,33 +118,6 @@ export async function POST(req: Request) {
       maxSteps: 2,
     });
       
-    response.onToolCall = ({ toolName, args }) => {
-        console.log(`[CHAT-API] 🛠️ Model wants to call tool: ${toolName} with args:`, args);
-    };
-
-    response.onToolResult = ({ toolName, result, args }) => {
-        console.log(`[CHAT-API] ✅ Tool ${toolName} executed successfully with result:`, result);
-    };
-
-    response.onToolError = ({ toolName, error, args }) => {
-        console.log(`[CHAT-API] ❌ Tool ${toolName} failed with error:`, error);
-    };
-      
-    response.onFinish =  ({ usage, experimental_custom }) => {
-      console.log('[CHAT-API] ✅ Stream finished.');
-      console.log('[CHAT-API] 📊 Token Usage:', usage);
-
-      const grounding = experimental_custom?.groundingMetadata;
-        if (grounding && grounding.searchQueries?.length > 0) {
-          console.log('[CHAT-API] 🌍 Grounding Search Used:', {
-            queries: grounding.searchQueries,
-            citations: grounding.citations.map(c => ({ source: c.source, content: c.content.substring(0, 100)+'...' }))
-          });
-        } else {
-          console.log('[CHAT-API] 🌍 Grounding Search was not used for this response.');
-        }
-    };
-    
     return response.toDataStreamResponse({getErrorMessage: errorHandler,});
   } catch (err) {
     console.error('[CHAT-API] Error:', err);

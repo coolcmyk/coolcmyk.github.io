@@ -479,7 +479,7 @@ const ProjectContent = ({ project }: { project: ProjectProps }) => {
 // Main data export with updated content
 export const data = [
 	{
-		category: 'Hackathon Winner',
+		category: 'Hackathon',
 		title: 'DecentraLearn',
 		src: '/decentralearn-preview.png',
 		content: <ProjectContent project={{ title: 'DecentraLearn' }} />,

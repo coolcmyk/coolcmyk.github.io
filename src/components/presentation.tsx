@@ -1,45 +1,44 @@
 'use client';
 
-import { motion, cubicBezier, Transition, Variants } from 'framer-motion'; // Added cubicBezier, Transition, and Variants
+import { motion, cubicBezier, Transition, Variants } from 'framer-motion';
 import Image from 'next/image';
 import React from 'react';
 
 export function Presentation() {
   // Personal information
   const profile = {
-    name: 'Raphael Giraud',
+    name: 'Ryan Adidaru',
     age: '21 years old',
-    location: 'Paris, France',
-    // Add a newline character after the emoji
+    location: 'Jakarta, Indonesia',
     description:
-      "Hey 👋\nI'm Raph also known as Toukoum. I'm a developer specializing in AI at 42 Paris. I'm working at LightOn AI in Paris. I'm passionate about AI, tech, Entrepreneurship and SaaS tech.",
-    src: '/profil-raph.png',
+      "Hey 👋\nI'm Ryan, a Computer Engineering student at University of Indonesia specializing in AI, Robotics, and Autonomous Systems. Currently working as AI Staff for the Autonomous Marine Vehicle team, passionate about open-source development and building intelligent systems that solve real-world problems.",
+    src: '/profile-ryan.png',
     fallbackSrc:
       'https://images.unsplash.com/photo-1610216705422-caa3fcb6d158?q=80&w=3560&auto=format&fit=crop&ixlib=rb-4.0.3',
   };
 
   // Animation variants for text elements
-  const textVariants: Variants = { // Explicitly type as Variants
+  const textVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: { 
         duration: 0.6, 
-        ease: cubicBezier(0, 0, 0.58, 1) // Equivalent to "easeOut"
+        ease: cubicBezier(0, 0, 0.58, 1)
       },
     },
   };
 
   // Animation for the entire paragraph rather than word-by-word
-  const paragraphAnimation: Variants = { // Explicitly type as Variants
+  const paragraphAnimation: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.6,
-        ease: cubicBezier(0, 0, 0.58, 1), // Equivalent to "easeOut"
+        ease: cubicBezier(0, 0, 0.58, 1),
         delay: 0.2,
       },
     },
@@ -54,7 +53,7 @@ export function Presentation() {
             <motion.div
               initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: cubicBezier(0.19, 1, 0.22, 1) }} // Use cubicBezier for the array
+              transition={{ duration: 0.8, ease: cubicBezier(0.19, 1, 0.22, 1) }}
               className="h-full w-full"
             >
               <Image
@@ -64,7 +63,6 @@ export function Presentation() {
                 height={500}
                 className="h-full w-full object-cover object-center"
                 onError={(e) => {
-                  // Fallback to placeholder if image fails to load
                   const target = e.target as HTMLImageElement;
                   target.src = profile.fallbackSrc;
                 }}
@@ -106,7 +104,7 @@ export function Presentation() {
             transition={{ delay: 0.6, duration: 0.5 }}
             className="mt-4 flex flex-wrap gap-2"
           >
-            {['AI', 'Developer', '42 Paris', 'Sport', 'SaaS Builder'].map(
+            {['AI Engineer', 'Computer Engineering', 'UI Student', 'Robotics', 'Open Source'].map(
               (tag) => (
                 <span
                   key={tag}

@@ -6,22 +6,20 @@ import { ArrowDownToLine, Download, Eye, File } from 'lucide-react';
 import Image from 'next/image';
 
 export function Resume() {
-  // Resume details
   const resumeDetails = {
-    title: "Raphael's Resume",
-    description: 'Full Stack Developer • AI Specialist',
+    title: "ryan's resume",
+    description: 'software & ai engineer',
     fileType: 'PDF',
-    lastUpdated: 'March 2025',
-    fileSize: '0.5 MB',
-    previewImageSrc: '/resume_giraud_preview.png',
-    downloadUrl: '/resume_giraud.pdf',
+    lastUpdated: 'july, 2025',
+    fileSize: '116.5 kB',
+    previewImageSrc: '/cv-preview.png',
+    downloadUrl: '/cv.pdf',
   };
 
   const handleDownload = () => {
-    // Create a link element
     const link = document.createElement('a');
     link.href = resumeDetails.downloadUrl;
-    link.download = resumeDetails.downloadUrl.split('/').pop() || 'resume.pdf';
+    link.download = resumeDetails.downloadUrl.split('/').pop() || 'cv.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

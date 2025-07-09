@@ -44,9 +44,9 @@ const Avatar = dynamic<AvatarProps>(
             onClick={() => (window.location.href = '/')}
           >
             <img
-              src="/mitsuki-logo.png"
+              src="/mitsuki.gif"
               alt="mitsuki"
-              className="h-full w-full scale-[1.8] object-contain"
+              className="h-full w-full scale-[0.7] object-contain rounded-full"
             />
           </div>
         </div>
@@ -74,10 +74,10 @@ const Chat = () => {
     addToolResult,
     append,
   } = useChat({
-    api: '/api/chat',     
-    streamProtocol: 'data',
+    // api: '/api/chat',     
+    // streamProtocol: 'data',
     onResponse: (response) => {
-      console.log(response);
+      // console.log(response);
       if (response) {
         setLoadingSubmit(false);
       }
@@ -86,30 +86,15 @@ const Chat = () => {
       setLoadingSubmit(false);
     },
     onError: (error) => {
-     setLoadingSubmit(false);
-     console.error('⚠️ Full error object:', error);
-
-     let message = 'Unknown error';
-  try {
-    if (error instanceof Error) {
-      message = error.message;
-    } else if (typeof error === 'string') {
-      message = error;
-    } else {
-      message = JSON.stringify(error, null, 2);
-    }
-  } catch (e) {
-    message = 'Error while processing error object';
-  }
-
-  toast.error(`Error: ${message}`);
-},
-
+      setLoadingSubmit(false);
+      console.error('⚠️ Full error object:', error);
+      toast.error(`Error: ${error.message}`);
+    },
     onToolCall: (tool) => {
       console.log('Tool call:', tool.toolCall.toolName);
     },
 
-    headers: {'Content-Type': 'application/json',},
+    // headers: {'Content-Type': 'application/json',},
   });
 
   const { currentAIMessage, latestUserMessage, hasActiveTool } = useMemo(() => {

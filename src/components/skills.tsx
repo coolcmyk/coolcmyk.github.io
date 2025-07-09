@@ -2,86 +2,112 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { motion, cubicBezier, Variants } from 'framer-motion'; // Import cubicBezier and Variants
+import { motion, cubicBezier, Variants } from 'framer-motion';
 import { Code, Cpu, PenTool, Users } from 'lucide-react';
 
 const Skills = () => {
   const skillsData = [
     {
-      category: 'Frontend Development',
+      category: 'Programming Languages',
       icon: <Code className="h-5 w-5" />,
       skills: [
-        'HTML',
-        'CSS',
-        'JavaScript/TypeScript',
-        'Tailwind CSS',
-        'Bootstrap',
-        'Next.js',
-        'React',
-        'Vercel AI SDK',
-        'Gsap',
+        'Rust',
+        'Python',
+        'C/C++',
+        'JavaScript',
+        'HTML/CSS',
+        'SQL',
+        'CUDA',
+        'C#',
       ],
       color: 'bg-blue-50 text-blue-600 border border-blue-200',
     },
     {
-      category: 'Backend & Systems',
+      category: 'AI & Machine Learning',
       icon: <Cpu className="h-5 w-5" />,
       skills: [
-        'Unix',
-        'C',
-        'C++',
-        'Python',
-        'Typescript',
-        'Git',
-        'GitHub',
-        'Docker',
-        'GCP',
-        'PostgreSQL',
+        'YOLO Architecture (YOLOv4-tiny, YOLOv8, YOLOv11)',
+        'OpenCV',
+        'Computer Vision',
+        'NLP',
+        'XGBoost',
+        'Scikit-Learn',
+        'Neural Networks',
+        'Ollama',
+        'Llama Models',
+        'Groq',
+        'Langchain',
+        'Qdrant VectorDB',
+      ],
+      color: 'bg-purple-50 text-purple-600 border border-purple-200',
+    },
+    {
+      category: 'Robotics & Systems',
+      icon: <Cpu className="h-5 w-5" />,
+      skills: [
+        'ROS2',
+        'Autonomous Navigation',
+        'Sensor Fusion',
+        'Unity3D Simulation',
+        'LiDAR',
+        'GPS/IMU',
+        'Embedded Systems',
+        'IoT Development',
       ],
       color: 'bg-emerald-50 text-emerald-600 border border-emerald-200',
     },
     {
-      category: 'Design & Creative Tools',
+      category: 'Developer Tools & Libraries',
       icon: <PenTool className="h-5 w-5" />,
-      skills: ['Figma', 'Davinci Code', 'Illustrator', 'Canva', 'Keynote'],
+      skills: [
+        'Git',
+        'Jupyter Notebooks',
+        'Google Colab',
+        'VS Code',
+        'Visual Studio',
+        'Kaggle',
+        'Ubuntu 22.04',
+        'neovim',
+        'vim',
+        'pandas',
+        'NumPy',
+        'Matplotlib',
+      ],
       color: 'bg-indigo-50 text-indigo-600 border border-indigo-200',
+    },
+    {
+      category: 'Web Development',
+      icon: <Code className="h-5 w-5" />,
+      skills: [
+        'React',
+        'TypeScript',
+        'TailwindCSS',
+        'shadcn/ui',
+        'Streamlit',
+        'Internet Computer Protocol',
+        'Recharts',
+      ],
+      color: 'bg-cyan-50 text-cyan-600 border border-cyan-200',
     },
     {
       category: 'Soft Skills',
       icon: <Users className="h-5 w-5" />,
       skills: [
-        'Communication',
+        'Team Leadership',
         'Problem-Solving',
-        'Adaptability',
-        'Learning Agility',
-        'Teamwork',
-        'Creativity',
-        'Focus',
+        'Research & Development',
+        'Open Source Contribution',
+        'Hackathon Participation',
+        'Technical Writing',
+        'Code Review',
+        'Mentoring',
       ],
       color: 'bg-amber-50 text-amber-600 border border-amber-200',
-    },
-    {
-      category: 'AI & Fullstack Engineering',
-      icon: <Cpu className="h-5 w-5" />,
-      skills: [
-        'LLM Providers (ChatGPT, Whisper, Groq, Mistral & Claude)',
-        'AI Agents',
-        'Prompt engineering',
-        'Vector databases (Weaviate, Pinecone)',
-        'RAG (Retrieval-Augmented Generation)',
-        'Tool routing & calling',
-        'Hugging Face Transformers',
-        'Vercel AI SDK',
-        'Supabase',
-        'Prisma',
-        'Next.js',
-      ],
-      color: 'bg-purple-50 text-purple-600 border border-purple-200',
     },
   ];
 
   // Animation variants
-  const containerVariants: Variants = { // Explicitly type as Variants
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -91,21 +117,21 @@ const Skills = () => {
     },
   };
 
-  const itemVariants: Variants = { // Explicitly type as Variants
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: cubicBezier(0.19, 1, 0.22, 1) }, // Use cubicBezier
+      transition: { duration: 0.5, ease: cubicBezier(0.19, 1, 0.22, 1) },
     },
   };
 
-  const badgeVariants: Variants = { // Explicitly type as Variants
+  const badgeVariants: Variants = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.3, ease: cubicBezier(0, 0, 0.58, 1) }, // Equivalent to "easeOut"
+      transition: { duration: 0.3, ease: cubicBezier(0, 0, 0.58, 1) },
     },
   };
 
@@ -113,7 +139,7 @@ const Skills = () => {
     <motion.div
       initial={{ scale: 0.98, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.6, ease: cubicBezier(0.19, 1, 0.22, 1) }} // Use cubicBezier
+      transition={{ duration: 0.6, ease: cubicBezier(0.19, 1, 0.22, 1) }}
       className="mx-auto w-full max-w-5xl rounded-4xl"
     >
       <Card className="w-full border-none px-0 pb-12 shadow-none">

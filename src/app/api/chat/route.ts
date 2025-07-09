@@ -8,7 +8,14 @@ import { getPresentation } from './tools/getPresentation';
 import { getProjects } from './tools/getProjects';
 import { getResume } from './tools/getResume';
 import { getSkills } from './tools/getSkills';
-import { getSports } from './tools/getSport';
+
+
+
+/////////////////////////////////TESTINGGG
+//
+//
+//
+import { getTest } from './tools/getTest';
 
 export const maxDuration = 30;
 
@@ -64,7 +71,7 @@ export async function POST(req: Request) {
 
   //rate limiter for safety
   if(isRateLimited(ip)){
-    return new Response(JSON.stringify({error: 'slow down baby'}), 
+    return new Response(JSON.stringify({err: 'slow down baby'}), 
     {status: 420, headers: {'Content-Type': 'application/json'}});
   }
   try {
@@ -80,32 +87,69 @@ export async function POST(req: Request) {
     ];
     
     const tools = {
+      getTest,
       getProjects,
       getPresentation,
       getResume,
       getContact,
       getSkills,
-      getSports,
       getCrazy,
       getInternship,
     };
     
+    // console.log('[CHAT-API] 🔍 Available tools:', Object.keys(tools));
+    // console.log('[CHAT-API] 🔍 Tools validation:', Object.entries(tools).map(([name, tool]) => ({
+    //   name,
+    //   exists: !!tool,
+    //   type: typeof tool,
+    //   hasDescription: tool?.description ? true : false
+    // })));
+
     const response = await streamText({
-      model: google('gemini-2.5-flash', {
-        useSearchGrounding: true,
-        dynamicRetrievalConfig: {
-          mode: 'MODE_DYNAMIC',
-          dynamicThreshold: 0.8,
-        }
-      }),
+      // model: google('gemini-2.5-pro', {
+      //   useSearchGrounding: true,
+      //   dynamicRetrievalConfig: {
+      //     mode: 'MODE_DYNAMIC',
+      //     dynamicThreshold: 0.8,
+      //   }
+      // }),
+      model: google('gemini-2.5-pro'),
       messages: formattedMessages,
       toolCallStreaming: true,
       tools,
       maxSteps: 2,
     });
+      
+    response.onToolCall = ({ toolName, args }) => {
+        console.log(`[CHAT-API] 🛠️ Model wants to call tool: ${toolName} with args:`, args);
+    };
+
+    response.onToolResult = ({ toolName, result, args }) => {
+        console.log(`[CHAT-API] ✅ Tool ${toolName} executed successfully with result:`, result);
+    };
+
+    response.onToolError = ({ toolName, error, args }) => {
+        console.log(`[CHAT-API] ❌ Tool ${toolName} failed with error:`, error);
+    };
+      
+    response.onFinish =  ({ usage, experimental_custom }) => {
+      console.log('[CHAT-API] ✅ Stream finished.');
+      console.log('[CHAT-API] 📊 Token Usage:', usage);
+
+      const grounding = experimental_custom?.groundingMetadata;
+        if (grounding && grounding.searchQueries?.length > 0) {
+          console.log('[CHAT-API] 🌍 Grounding Search Used:', {
+            queries: grounding.searchQueries,
+            citations: grounding.citations.map(c => ({ source: c.source, content: c.content.substring(0, 100)+'...' }))
+          });
+        } else {
+          console.log('[CHAT-API] 🌍 Grounding Search was not used for this response.');
+        }
+    };
+    
     return response.toDataStreamResponse({getErrorMessage: errorHandler,});
   } catch (err) {
-    console.error('[CHAT-API] Error:', error);
-    return new Response(errorHandler(error), { status: 500 });
+    console.error('[CHAT-API] Error:', err);
+    return new Response(errorHandler(err), { status: 500 });
   }
 }

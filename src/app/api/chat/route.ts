@@ -24,7 +24,7 @@ if (!GEMINI_API_KEY) {
 }
 
 const rateLimitMap = new Map<string, { count: number; lastRequest: number }>();
-const RATE_LIMIT = 5; // 5 requests
+const RATE_LIMIT = 15; // 15 requests
 const WINDOW_MS = 60 * 1000; // 1 minute
 
 function isRateLimited(ip: string): boolean {

@@ -77,7 +77,7 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
     console.log('[CHAT-API] Incoming messages:', messages);
     
-    const formattedMessages = [
+    const formattedMessages = messages.some(m=> m.role === 'system') ? messages : [
       {
         role: 'system',
         content: SYSTEM_PROMPT, 
@@ -111,7 +111,7 @@ export async function POST(req: Request) {
       //     dynamicThreshold: 0.8,
       //   }
       // }),
-      model: google('gemini-2.5-pro'),
+      model: google('gemini-2.5-flash'),
       messages: formattedMessages,
       toolCallStreaming: true,
       tools,

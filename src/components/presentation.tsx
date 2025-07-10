@@ -8,7 +8,7 @@ export function Presentation() {
   // Personal information
   const profile = {
     name: 'Ryan Adidaru',
-    age: '21 years old',
+    age: '19 years old',
     location: 'Jakarta, Indonesia',
     description:
       "Hey 👋\nI'm Ryan, a Computer Engineering student at University of Indonesia specializing in AI, Robotics, and Autonomous Systems. Currently working as AI Staff for the Autonomous Marine Vehicle team, passionate about open-source development and building intelligent systems that solve real-world problems.",

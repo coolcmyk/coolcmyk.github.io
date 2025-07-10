@@ -77,7 +77,7 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
     console.log('[CHAT-API] Incoming messages:', messages);
     
-    const formattedMessages = messages.some(m=> m.role === 'system') ? messages : [
+    const formattedMessages = [
       {
         role: 'system',
         content: SYSTEM_PROMPT, 

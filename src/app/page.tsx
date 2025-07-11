@@ -18,7 +18,7 @@ import {
 
 /* ---------- Quick Question Data ---------- */
 const questions = {
-  about: "Tell me about Ryan Adidaru. What's his background in computer engineering?",
+  about: "Tell me about Ryan Adidaru's background",
   projects: 'What are Ryan\'s most impressive projects? Tell me about CaptureTheGun and TanyaJawab.',
   skills: 'What programming languages and technologies does Ryan know? Tell me about his AI experience.',
   edu : 'Where did Ryan study? What certifications does he have?',

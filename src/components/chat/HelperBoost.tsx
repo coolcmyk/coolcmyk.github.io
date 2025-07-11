@@ -38,7 +38,7 @@ interface HelperBoostProps {
 
 // Ryan-focused questions
 const ryanQuestions = {
-  About: 'Tell me about Ryan. What makes him special?',
+  About: 'Tell me about Ryan\'s background. What makes him special?',
   Projects: 'Show me Ryan\'s projects. What has he built recently?',
   Skills: 'What are Ryan\'s technical skills and expertise?',
   Experience: 'What\'s Ryan\'s work experience and achievements?',
@@ -86,7 +86,7 @@ const ryanQuestionsByCategory = [
     icon: UserSearch,
     questions: [
       'Tell me about Ryan',
-      'What makes Ryan special?',
+      'What\'s Ryan\'s background?',
       'What are Ryan\'s passions?',
       'Where does Ryan see himself in 5 years?',
       'What\'s Ryan\'s educational background?',

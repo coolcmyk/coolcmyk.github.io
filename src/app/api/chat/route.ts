@@ -68,23 +68,29 @@ function errorHandler(error: unknown): string {
 export async function POST(req: Request) {
   const ip = req.headers.get('x-forwarded-for') || 'unknown';
 
-  //rate limiter for safety
   if(isRateLimited(ip)){
     return new Response(JSON.stringify({err: 'slow down baby'}), 
     {status: 420, headers: {'Content-Type': 'application/json'}});
   }
+  
   try {
-    const { messages } = await req.json();
+    const { messages, conversationId } = await req.json(); // Add conversation tracking
     console.log('[CHAT-API] Incoming messages:', messages);
     
-    const formattedMessages = [
-      {
-        role: 'system',
-        content: SYSTEM_PROMPT, 
-      },
-      ...messages,
-    ];
+    // Only include system prompt if no system message exists in conversation
+    const hasSystemMessage = messages.some(m => m.role === 'system');
     
+    let formattedMessages;
+    if (!hasSystemMessage) {
+      formattedMessages = [
+        { role: 'system', content: SYSTEM_PROMPT },
+        ...messages,
+      ];
+    } else {
+      formattedMessages = messages;
+    }
+
+    // Lazy load tools to reduce memory overhead
     const tools = {
       getTest,
       getProjects,
@@ -95,30 +101,16 @@ export async function POST(req: Request) {
       getInternship,
     };
     
-    // console.log('[CHAT-API] 🔍 Available tools:', Object.keys(tools));
-    // console.log('[CHAT-API] 🔍 Tools validation:', Object.entries(tools).map(([name, tool]) => ({
-    //   name,
-    //   exists: !!tool,
-    //   type: typeof tool,
-    //   hasDescription: tool?.description ? true : false
-    // })));
-
     const response = await streamText({
-      // model: google('gemini-2.5-pro', {
-      //   useSearchGrounding: true,
-      //   dynamicRetrievalConfig: {
-      //     mode: 'MODE_DYNAMIC',
-      //     dynamicThreshold: 0.8,
-      //   }
-      // }),
-      model: google('gemini-2.5-flash'),
+      model: google('gemini-2.5-flash'), // Consider using flash instead of 2.0 for cost
       messages: formattedMessages,
       toolCallStreaming: true,
       tools,
       maxSteps: 2,
+      maxTokens: 250,
     });
       
-    return response.toDataStreamResponse({getErrorMessage: errorHandler,});
+    return response.toDataStreamResponse({getErrorMessage: errorHandler});
   } catch (err) {
     console.error('[CHAT-API] Error:', err);
     return new Response(errorHandler(err), { status: 500 });

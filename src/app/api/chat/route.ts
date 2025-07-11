@@ -112,7 +112,7 @@ export async function POST(req: Request) {
       toolCallStreaming: true,
       tools,
       maxSteps: 2,
-      maxTokens: 250,
+      maxTokens: 500,
     });
       
     return response.toDataStreamResponse({getErrorMessage: errorHandler});

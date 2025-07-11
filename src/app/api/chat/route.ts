@@ -16,6 +16,11 @@ import { getSkills } from './tools/getSkills';
 //
 import { getTest } from './tools/getTest';
 
+interface Message {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
+
 export const maxDuration = 30;
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -74,13 +79,13 @@ export async function POST(req: Request) {
   }
   
   try {
-    const { messages, conversationId } = await req.json(); // Add conversation tracking
+    const { messages, conversationId }: { messages: Message[], conversationId?: string } = await req.json();
     console.log('[CHAT-API] Incoming messages:', messages);
     
     // Only include system prompt if no system message exists in conversation
-    const hasSystemMessage = messages.some(m => m.role === 'system');
+    const hasSystemMessage = messages.some((m: Message) => m.role === 'system');
     
-    let formattedMessages;
+    let formattedMessages: Message[];
     if (!hasSystemMessage) {
       formattedMessages = [
         { role: 'system', content: SYSTEM_PROMPT },

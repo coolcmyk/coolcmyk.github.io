@@ -41,9 +41,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://ky0.dev",
-    title: "</3",
+    title: "coolcmyk's portfolio",
     description: "Interact with Mitsuki, about my skills, projects, etc.",
-    siteName: "Toukoum Portfolio",
+    siteName: "ky0.dev",
   },
   twitter: {
     card: "summary_large_image",
